@@ -26,7 +26,7 @@ Reject inconsistent persisted or submitted settings rather than silently issuing
 
 Certificates containing an IP require automatic renewal. Their renewal check runs hourly at a stable non-zero minute; ordinary domain-only certificates retain the existing twice-monthly schedule. `acme.sh` decides whether renewal is due, so hourly invocations normally exit without issuing.
 
-The saved acme.sh renewal configuration retains the identifiers and `shortlived` profile. The existing reload hook continues installing renewed material into MikoPBX settings.
+The saved acme.sh renewal configuration retains the identifiers and `shortlived` profile. The existing reload hook continues installing renewed material into Dzvin PBX settings.
 
 ## Testing
 

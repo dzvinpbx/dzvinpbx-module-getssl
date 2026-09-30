@@ -1,7 +1,7 @@
 <?php
 
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -96,17 +96,6 @@ class DnsProviderRegistry
             ],
         ],
         [
-            'id' => 'dns_yc',
-            'name' => 'Yandex Cloud',
-            'fields' => [
-                ['var' => 'YC_Zone_ID', 'label' => 'DNS Zone ID', 'type' => 'text'],
-                ['var' => 'YC_Folder_ID', 'label' => 'Folder ID', 'type' => 'text'],
-                ['var' => 'YC_SA_ID', 'label' => 'Service Account ID', 'type' => 'text'],
-                ['var' => 'YC_SA_Key_ID', 'label' => 'SA IAM Key ID', 'type' => 'text'],
-                ['var' => 'YC_SA_Key_File_PEM_b64', 'label' => 'SA Private Key (base64)', 'type' => 'password'],
-            ],
-        ],
-        [
             'id' => 'dns_namecheap',
             'name' => 'Namecheap',
             'fields' => [
@@ -139,32 +128,6 @@ class DnsProviderRegistry
                 ['var' => 'PDNS_Url', 'label' => 'API URL', 'type' => 'text'],
                 ['var' => 'PDNS_ServerId', 'label' => 'Server ID', 'type' => 'text'],
                 ['var' => 'PDNS_Token', 'label' => 'API Token', 'type' => 'password'],
-            ],
-        ],
-        [
-            'id' => 'dns_selectel',
-            'name' => 'Selectel',
-            'fields' => [
-                ['var' => 'SL_Login_ID', 'label' => 'Account ID', 'type' => 'text'],
-                ['var' => 'SL_Project_Name', 'label' => 'Project Name', 'type' => 'text'],
-                ['var' => 'SL_Login_Name', 'label' => 'Service User Name', 'type' => 'text'],
-                ['var' => 'SL_Pswd', 'label' => 'Service User Password', 'type' => 'password'],
-            ],
-        ],
-        [
-            'id' => 'dns_regru',
-            'name' => 'reg.ru',
-            'fields' => [
-                ['var' => 'REGRU_API_Username', 'label' => 'Username', 'type' => 'text'],
-                ['var' => 'REGRU_API_Password', 'label' => 'Password', 'type' => 'password'],
-            ],
-        ],
-        [
-            'id' => 'dns_beget',
-            'name' => 'Beget',
-            'fields' => [
-                ['var' => 'BEGET_User', 'label' => 'API User', 'type' => 'text'],
-                ['var' => 'BEGET_Password', 'label' => 'API Password', 'type' => 'password'],
             ],
         ],
         [

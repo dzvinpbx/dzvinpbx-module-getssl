@@ -1,7 +1,7 @@
 <?php
 
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,10 @@
 
 namespace Modules\ModuleGetSsl\Setup;
 
-use MikoPBX\Common\Models\LanInterfaces;
-use MikoPBX\Core\System\Processes;
-use MikoPBX\Core\System\Util;
-use MikoPBX\Modules\Setup\PbxExtensionSetupBase;
+use DzvinPBX\Common\Models\LanInterfaces;
+use DzvinPBX\Core\System\Processes;
+use DzvinPBX\Core\System\Util;
+use DzvinPBX\Modules\Setup\PbxExtensionSetupBase;
 use Modules\ModuleGetSsl\Models\ModuleGetSsl;
 
 /**

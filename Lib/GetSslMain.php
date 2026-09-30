@@ -1,7 +1,7 @@
 <?php
 
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,14 @@
 
 namespace Modules\ModuleGetSsl\Lib;
 
-use MikoPBX\Common\Models\LanInterfaces;
-use MikoPBX\Common\Models\PbxSettings;
-use MikoPBX\Common\Providers\PBXCoreRESTClientProvider;
-use MikoPBX\Core\System\Directories;
-use MikoPBX\Core\System\Processes;
-use MikoPBX\Core\System\Util;
-use MikoPBX\Modules\PbxExtensionUtils;
-use MikoPBX\PBXCoreREST\Lib\PBXApiResult;
+use DzvinPBX\Common\Models\LanInterfaces;
+use DzvinPBX\Common\Models\PbxSettings;
+use DzvinPBX\Common\Providers\PBXCoreRESTClientProvider;
+use DzvinPBX\Core\System\Directories;
+use DzvinPBX\Core\System\Processes;
+use DzvinPBX\Core\System\Util;
+use DzvinPBX\Modules\PbxExtensionUtils;
+use DzvinPBX\PBXCoreREST\Lib\PBXApiResult;
 use Modules\ModuleGetSsl\Models\ModuleGetSsl;
 use Phalcon\Di\Injectable;
 
@@ -38,7 +38,7 @@ use Phalcon\Di\Injectable;
  * Supports both acme.sh (primary) and legacy getssl ACME clients.
  * Supports HTTP-01 and DNS-01 challenge types.
  *
- * @property \MikoPBX\Common\Providers\TranslationProvider translation
+ * @property \DzvinPBX\Common\Providers\TranslationProvider translation
  */
 class GetSslMain extends Injectable
 {
@@ -322,11 +322,11 @@ class GetSslMain extends Injectable
             'pid' => posix_getpid()
         ];
 
-        $di = MikoPBXVersion::getDefaultDi();
+        $di = DzvinPBXVersion::getDefaultDi();
 
         // PBX >= 2024.2.30: use system event-bus WebSocket
-        if (class_exists('\MikoPBX\Common\Providers\EventBusProvider')) {
-            $di->getShared(\MikoPBX\Common\Providers\EventBusProvider::SERVICE_NAME)
+        if (class_exists('\DzvinPBX\Common\Providers\EventBusProvider')) {
+            $di->getShared(\DzvinPBX\Common\Providers\EventBusProvider::SERVICE_NAME)
                 ->publish(self::EVENT_BUS_TYPE, $message);
             return;
         }

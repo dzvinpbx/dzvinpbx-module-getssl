@@ -1,7 +1,7 @@
 <?php
 
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 
 namespace Modules\ModuleGetSsl\Lib;
 
-use MikoPBX\Common\Models\PbxSettings;
-use MikoPBX\Core\System\Directories;
-use MikoPBX\Core\System\Processes;
-use MikoPBX\Core\System\System;
-use MikoPBX\Core\System\Util;
+use DzvinPBX\Common\Models\PbxSettings;
+use DzvinPBX\Core\System\Directories;
+use DzvinPBX\Core\System\Processes;
+use DzvinPBX\Core\System\System;
+use DzvinPBX\Core\System\Util;
 use Modules\ModuleGetSsl\Models\ModuleGetSsl;
 
 /**
@@ -36,7 +36,7 @@ use Modules\ModuleGetSsl\Models\ModuleGetSsl;
 class AcmeHttpPort
 {
     private const LOCK_FILE = '/var/run/custom_modules/ModuleGetSsl/acme_port80.lock';
-    private const NGINX_ACME_CONF = '/etc/nginx/mikopbx/modules_servers/ModuleGetSsl_acme80.conf';
+    private const NGINX_ACME_CONF = '/etc/nginx/dzvinpbx/modules_servers/ModuleGetSsl_acme80.conf';
     private const MAX_OPEN_SECONDS = 300;
 
     private string $logFile;

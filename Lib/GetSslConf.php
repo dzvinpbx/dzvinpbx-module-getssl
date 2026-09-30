@@ -1,7 +1,7 @@
 <?php
 
 /*
- * MikoPBX - free phone system for small business
+ * Dzvin PBX - free phone system for small business
  * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 
 namespace Modules\ModuleGetSsl\Lib;
 
-use MikoPBX\Core\System\PBX;
-use MikoPBX\Core\System\Processes;
-use MikoPBX\Core\System\Util;
-use MikoPBX\Modules\Config\ConfigClass;
-use MikoPBX\PBXCoreREST\Lib\PBXApiResult;
+use DzvinPBX\Core\System\PBX;
+use DzvinPBX\Core\System\Processes;
+use DzvinPBX\Core\System\Util;
+use DzvinPBX\Modules\Config\ConfigClass;
+use DzvinPBX\PBXCoreREST\Lib\PBXApiResult;
 use Modules\ModuleGetSsl\Lib\AcmeHttpPort;
 use Modules\ModuleGetSsl\Models\ModuleGetSsl;
 
@@ -32,7 +32,7 @@ class GetSslConf extends ConfigClass
 {
 
     /**
-     * Receive information about mikopbx main database changes
+     * Receive information about dzvinpbx main database changes
      *
      * @param $data
      */

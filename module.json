@@ -1,16 +1,7 @@
 {
-  "developer":"MIKO",
-  "moduleUniqueID":"ModuleGetSsl",
-  "support_email": "help@miko.ru",
-  "version": "%ModuleVersion%",
-  "min_pbx_version": "2024.1.114",
-  "wiki_links": {
-    "ru": {"https://wiki.mikopbx.com/module-get-ssl": "https://docs.mikopbx.com/mikopbx/modules/miko/module-get-ssl-lets-encrypt"},
-    "en": {"https://wiki.mikopbx.com/module-get-ssl": "https://docs.mikopbx.com/mikopbx/v/english/modules/miko/module-get-ssl-lets-encrypt"}
-  },
-  "release_settings": {
-    "publish_release": true,
-    "changelog_enabled": true,
-    "create_github_release": true
-  }
+  "developer": "MIKO (fork by Dzvin PBX)",
+  "moduleUniqueID": "ModuleGetSsl",
+  "support_email": "",
+  "version": "1.0",
+  "min_pbx_version": "2024.1.114"
 }

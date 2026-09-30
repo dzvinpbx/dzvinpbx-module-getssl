@@ -1,10 +1,10 @@
-# ModuleGetSsl — Бесплатные SSL-сертификаты для MikoPBX
+# ModuleGetSsl — Бесплатные SSL-сертификаты для Dzvin PBX
 
-[English version](README.md)
+**[Українська](README.uk.md)** | **[English](README.md)** | **Русская версия**
 
 ## Что делает модуль
 
-Модуль автоматически получает и обновляет бесплатные SSL-сертификаты от [Let's Encrypt](https://letsencrypt.org/) для веб-интерфейса MikoPBX. После настройки HTTPS-сертификат выпускается автоматически и продлевается по расписанию — никаких ручных действий не требуется.
+Модуль автоматически получает и обновляет бесплатные SSL-сертификаты от [Let's Encrypt](https://letsencrypt.org/) для веб-интерфейса Dzvin PBX. После настройки HTTPS-сертификат выпускается автоматически и продлевается по расписанию — никаких ручных действий не требуется.
 
 ## Способы проверки
 
@@ -18,24 +18,24 @@
 ### DNS-01
 Выпуск сертификата через API вашего DNS-провайдера. Не нужно открывать порт 80 — работает за файрволами, NAT и в закрытых сетях. Также поддерживает **wildcard-сертификаты** (`*.domain.com`).
 
-**Поддерживаемые провайдеры (20+):** Cloudflare, Amazon Route53, GoDaddy, DigitalOcean, Hetzner, Yandex Cloud, OVH, Selectel, reg.ru, Beget, Namecheap, Azure DNS, Vultr, DuckDNS, Linode, INWX, DreamHost, deSEC, PowerDNS, ISPConfig, Google Cloud DNS и любой пользовательский провайдер.
+**Поддерживаемые провайдеры (20+):** Cloudflare, Amazon Route53, GoDaddy, DigitalOcean, Hetzner, OVH, Namecheap, Azure DNS, Vultr, DuckDNS, Linode, INWX, DreamHost, deSEC, PowerDNS, ISPConfig, Google Cloud DNS и любой пользовательский провайдер.
 
 **Настройка:** выберите DNS-01 в выпадающем списке способа проверки, выберите DNS-провайдера, введите API-ключи и нажмите сохранить.
 
 ## Как это работает
 
-1. Установите модуль из маркетплейса модулей MikoPBX
+1. Установите модуль из маркетплейса модулей Dzvin PBX
 2. Укажите доменное имя в настройках модуля
 3. Выберите способ проверки (HTTP-01 или DNS-01)
 4. Для DNS-01 — выберите DNS-провайдера и введите API-ключи
 5. Нажмите сохранить — модуль запросит сертификат у Let's Encrypt, прогресс отображается в реальном времени
-6. После выпуска сертификат автоматически применяется к веб-интерфейсу MikoPBX
+6. После выпуска сертификат автоматически применяется к веб-интерфейсу Dzvin PBX
 
 Автоматическое продление запускается 1-го и 15-го числа каждого месяца. Если сертификат подлежит обновлению, он будет продлён автоматически.
 
 ## Требования
 
-- MikoPBX версии **2024.1.114** или новее
+- Dzvin PBX версии **2024.1.114** или новее
 - Доменное имя, указывающее на вашу АТС (A-запись)
 - **Для HTTP-01:** порт **80**, доступный из интернета
 - **Для DNS-01:** API-ключи от вашего DNS-провайдера (открытые порты не нужны)
@@ -44,14 +44,13 @@
 
 Модуль использует [acme.sh](https://github.com/acmesh-official/acme.sh) в качестве ACME-клиента — широко используемый bash-скрипт без зависимостей, поддерживающий полный протокол ACME v2 и более 150 DNS-провайдеров.
 
-## Документация
-
-- [Документация на русском](https://docs.mikopbx.com/mikopbx/modules/miko/module-get-ssl-lets-encrypt)
-- [English documentation](https://docs.mikopbx.com/mikopbx/v/english/modules/miko/module-get-ssl-lets-encrypt)
-
 ## Поддержка
 
-По вопросам и проблемам — [help@miko.ru](mailto:help@miko.ru) или канал разработчиков в Telegram: [@mikopbx_dev](https://t.me/joinchat/AAPn5xSqZIpQnNnCAa3bBw)
+Вопросы и проблемы: [GitHub issues](https://github.com/dzvinpbx/dzvinpbx-module-getssl/issues).
+
+## Происхождение
+
+Форк [mikopbx/ModuleGetSsl](https://github.com/mikopbx/ModuleGetSsl) (тег v1.22) авторства Алексея Портнова и Николая Бекетова. Поставляемые скрипты acme.sh сохраняют исходную лицензию GPL-3.0.
 
 ## Лицензия
 
