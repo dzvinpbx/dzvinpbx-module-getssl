@@ -1,0 +1,46 @@
+<?php
+/*
+ * MikoPBX - free phone system for small business
+ * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+return [
+    'repModuleGetSsl'         => 'Auto SSL - %repesent%',
+    'mo_ModuleModuleGetSsl'   => 'Auto SSL',
+    'BreadcrumbModuleGetSsl'  => 'Auto SSL',
+    'SubHeaderModuleGetSsl'   => 'Автоматический выпуск и продление SSL сертификатов',
+    'module_getssl_DomainNameLabel' => 'Имя домена без http и https, только название',
+    'module_getssl_autoUpdateLabel' => 'Обновлять сертификат автоматически',
+    'module_getssl_getUpdateSSLButton' => 'Получить/обновить SSL сертификат',
+    'module_getssl_getUpdateLogHeader' => 'Результат запроса сертификата в Lets Encrypt',
+    'module_getssl_DomainNameEmpty' => 'Введите значение домена для генерации сертификата',
+    'module_getssl_IpAddressCertificateWarning' => 'Сертификаты Let’s Encrypt для IP-адресов действуют около 6 дней. Модуль будет обновлять такой сертификат чаще.',
+    'module_getssl_IncludeIpAddressLabel' => 'Добавить публичный IP-адрес в сертификат',
+    'module_getssl_PublicIpAddressLabel' => 'Публичный IP-адрес',
+    'module_getssl_PublicIpAddressInvalid' => 'Введите корректный публичный IPv4- или IPv6-адрес',
+    'module_getssl_DomainAndIpCertificateWarning' => 'Сертификат будет действовать для домена и указанного IP-адреса. Срок действия составит около 6 дней, поэтому автоматическое обновление будет выполняться чаще.',
+    'module_getssl_ConfigStartsGenerating' => 'Генерируем конфигурационные файлы...',
+    'module_getssl_ConfigGenerated' => 'Конфигурационные файлы созданы...',
+    'module_getssl_GetSSLProcessing' => 'Выполняется запрос данных в Lets Encrypt...',
+    'module_getssl_GetSSLProcessingTimeout' => 'Ошибка, сервис Lets Encrypt не вернул ответа в течение 2 минут',
+    'module_getssl_ViewFullLogLink' => 'Смотреть полный лог в системной диагностике',
+    'module_getssl_ChallengeTypeLabel' => 'Способ проверки',
+    'module_getssl_HttpChallengeInfo' => 'HTTP-01: сервер должен быть доступен из интернета на порту 80. Порт будет открыт временно на время проверки.',
+    'module_getssl_DnsProviderLabel' => 'DNS провайдер',
+    'module_getssl_DnsProviderEmpty' => 'Выберите DNS провайдера для проверки через DNS-01',
+    'module_getssl_DnsCredentialsEmpty' => 'Заполните все обязательные поля учётных данных DNS-провайдера',
+    'module_getssl_DnsChallengeInfo' => 'DNS-01: сертификат выпускается через API вашего DNS-провайдера. Порт 80 не нужен. Поддерживаются wildcard-сертификаты (*.domain.com).',
+];

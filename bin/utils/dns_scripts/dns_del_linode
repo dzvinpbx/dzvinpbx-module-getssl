@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+fulldomain="${1}"
+api_url="https://api.linode.com/v4"
+api_key=${LINODE_KEY:-''}
+
+# Verify that required parameters are set
+if [[ -z "$fulldomain" ]]; then
+  echo "DNS script requires full domain name as first parameter"
+  exit 1
+fi
+if [[ -z "$LINODE_KEY" ]]; then
+  echo "LINODE_KEY variable not set"
+  exit 1
+fi
+
+# Get Domain List
+response=$(curl --silent ${api_url}/domains \
+  -H "User-Agent: getssl/0.1" -H "Authorization: Bearer ${api_key}")
+
+# Get Domain ID for longest match
+domain_root="$fulldomain"
+domain=""
+
+while [[ "$domain_root" == *.* ]] ; do
+	domain_id=$(echo "$response" | jq ".data[]? | select (.domain==\"$domain_root\") | .id")
+	if [[ "$domain_id" != "" ]] ; then
+		break
+	fi
+	domain_root=${domain_root#*.}
+	domain=${fulldomain%.$domain_root}
+done
+
+if [[ "$domain_id" == "" ]]; then
+  echo "Failed to fetch DomainID"
+  exit 1
+fi
+
+txtname="_acme-challenge${domain:+.$domain}"
+
+# Get Resource ID
+response=$(curl --silent ${api_url}/domains/${domain_id}/records \
+  -H "User-Agent: getssl/0.1" -H "Authorization: Bearer ${api_key}")
+resource_id=$(echo "$response" |  jq ".data[] | select (.name==\"$txtname\") | .id")
+if [[ "$resource_id" == "" ]]; then
+  echo "Failed to fetch ResourceID"
+  exit 1
+fi
+
+# Delete TXT record
+response=$(curl --silent -X DELETE ${api_url}/domains/${domain_id}/records/${resource_id} \
+  -H "User-Agent: getssl/0.1" -H "Authorization: Bearer ${api_key}")
+errors=$(echo "$response" | jq ".errors[]?.reason")
+if [[ "$errors" != "" ]]; then
+    echo "Something went wrong: $errors"
+    exit 1
+fi

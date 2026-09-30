@@ -1,0 +1,160 @@
+<?php
+
+/*
+ * MikoPBX - free phone system for small business
+ * Copyright © 2017-2024 Alexey Portnov and Nikolay Beketov
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+namespace Modules\ModuleGetSsl\App\Controllers;
+
+use MikoPBX\AdminCabinet\Controllers\BaseController;
+use MikoPBX\AdminCabinet\Providers\AssetProvider;
+use MikoPBX\Common\Models\LanInterfaces;
+use Modules\ModuleGetSsl\App\Forms\ModuleGetSslForm;
+use Modules\ModuleGetSsl\Lib\DnsProviderRegistry;
+use Modules\ModuleGetSsl\Lib\CertificateIdentifierPolicy;
+use Modules\ModuleGetSsl\Models\ModuleGetSsl;
+
+class ModuleGetSslController extends BaseController
+{
+    private $moduleUniqueID = 'ModuleGetSsl';
+
+    /**
+     * Basic initial class
+     */
+    public function initialize(): void
+    {
+        $this->view->logoImagePath = $this->url->get() . 'assets/img/cache/' . $this->moduleUniqueID . '/logo.svg';
+        parent::initialize();
+    }
+
+    /**
+     * Index page controller
+     */
+    public function indexAction(): void
+    {
+        $this->view->submitMode = null;
+        $footerCollection = $this->assets->collection(AssetProvider::FOOTER_JS);
+        $footerCollection->addJs('js/pbx/main/form.js', true);
+        $footerCollection->addJs("js/cache/{$this->moduleUniqueID}/module-get-ssl-status-worker.js", true);
+        $footerCollection->addJs("js/cache/{$this->moduleUniqueID}/module-get-ssl-index.js", true);
+
+        $footerCollectionACE = $this->assets->collection(AssetProvider::FOOTER_ACE);
+        $footerCollectionACE
+            ->addJs('js/vendor/ace/ace.js', true)
+            ->addJs('js/vendor/ace/mode-julia.js', true);
+
+        $headerCollectionCSS = $this->assets->collection(AssetProvider::HEADER_CSS);
+        $headerCollectionCSS->addCss("css/cache/{$this->moduleUniqueID}/module-get-ssl.css", true);
+
+        $internetInterface = LanInterfaces::findFirst("internet = '1'");
+        $interfaceSettings = $internetInterface !== null ? $internetInterface->toArray() : [];
+        $settings = ModuleGetSsl::findFirst();
+        if ($settings === null) {
+            $settings = new ModuleGetSsl();
+            $settings->domainName = $interfaceSettings['exthostname'] ?? '';
+        }
+
+        $resolvedIps = [];
+        $domainName = trim((string)($settings->domainName ?? ''));
+        if ($domainName !== '' && !CertificateIdentifierPolicy::isIpAddress($domainName)) {
+            $resolvedV4 = gethostbynamel($domainName);
+            if (is_array($resolvedV4)) {
+                $resolvedIps = array_merge($resolvedIps, $resolvedV4);
+            }
+            $resolvedV6 = dns_get_record($domainName, DNS_AAAA);
+            if (is_array($resolvedV6)) {
+                foreach ($resolvedV6 as $record) {
+                    if (!empty($record['ipv6'])) {
+                        $resolvedIps[] = $record['ipv6'];
+                    }
+                }
+            }
+        }
+        $suggestedPublicIp = CertificateIdentifierPolicy::selectSuggestedPublicIp(
+            (string)($interfaceSettings['extipaddr'] ?? ''),
+            $resolvedIps
+        );
+
+        $dnsProviderOptions = DnsProviderRegistry::getProviderSelectOptions();
+        $this->view->form = new ModuleGetSslForm($settings, [
+            'dnsProviderOptions' => $dnsProviderOptions,
+        ]);
+        $this->view->dnsProvidersJson = json_encode(DnsProviderRegistry::getProviders());
+        $this->view->suggestedPublicIpJson = json_encode($suggestedPublicIp);
+    }
+
+    /**
+     * Save settings AJAX action
+     */
+    public function saveAction(): void
+    {
+        if (!$this->request->isPost()) {
+            return;
+        }
+        $record = ModuleGetSsl::findFirst();
+        if ($record === null) {
+            $record = new ModuleGetSsl();
+        }
+        $this->db->begin();
+        foreach ($record as $key => $value) {
+            $newVal = $this->request->getPost($key, ['string','trim']) ?? '';
+            switch ($key) {
+                case 'id':
+                    break;
+                case 'autoUpdate':
+                case 'includeIpAddress':
+                    $record->$key = ($newVal === 'on') ? '1' : '0';
+                    break;
+                case 'publicIpAddress':
+                    $record->$key = CertificateIdentifierPolicy::normalizeIpAddress($newVal);
+                    break;
+                case 'dnsCredentials':
+                    // Store raw base64-encoded JSON as-is from the frontend
+                    $record->$key = $newVal;
+                    break;
+                default:
+                    $record->$key = $newVal;
+            }
+        }
+
+        try {
+            $settings = $record->toArray();
+            CertificateIdentifierPolicy::getIdentifiers($settings);
+            if (CertificateIdentifierPolicy::containsIpAddress($settings)) {
+                $record->challengeType = 'http';
+                $record->autoUpdate = '1';
+            }
+        } catch (\InvalidArgumentException $e) {
+            $this->flash->error($this->translation->_('module_getssl_PublicIpAddressInvalid'));
+            $this->view->success = false;
+            $this->db->rollback();
+            return;
+        }
+
+        if ($record->save() === false) {
+            $errors = $record->getMessages();
+            $this->flash->error(implode('<br>', $errors));
+            $this->view->success = false;
+            $this->db->rollback();
+            return;
+        }
+
+        $this->flash->success($this->translation->_('ms_SuccessfulSaved'));
+        $this->view->success = true;
+        $this->db->commit();
+    }
+}
