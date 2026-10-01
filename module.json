@@ -2,6 +2,6 @@
   "developer": "MIKO (fork by Dzvin PBX)",
   "moduleUniqueID": "ModuleGetSsl",
   "support_email": "",
-  "version": "1.22",
+  "version": "1.23",
   "min_pbx_version": "2024.1.114"
 }
